@@ -1,0 +1,8 @@
+{
+  "description": "A placeholder application that does just enough to pass health checks.",
+  "operatingSystems": [
+      "Linux"
+  ],
+  "aboutText": "This placeholder application used for bootstrapping ECS Fargate services via Terraform.",
+  "usageText": "This repository is not for public use."
+}
