@@ -6,30 +6,36 @@ import (
 	"os"
 )
 
+var URIS = []string{
+	"/",
+	"/api/health",
+	"/api/public/health",
+}
+
 func main() {
 	server := CreateServer()
 	server.ListenAndServe()
 }
 
 func CreateServer() *http.Server {
-	mux := http.NewServeMux()
-
-	paths := []string{
-		"/",
-		"/api/health",
-		"/api/public/health",
-	}
-
-	for _, uri := range paths {
-		mux.HandleFunc(uri, HealthcheckHandler)
-	}
+	router := CreateHandler()
 
 	server := &http.Server{
 		Addr:    GetAddress(),
-		Handler: mux,
+		Handler: router,
 	}
 
 	return server
+}
+
+func CreateHandler() *http.ServeMux {
+	mux := http.NewServeMux()
+
+	for _, uri := range URIS {
+		mux.HandleFunc(uri, HealthcheckHandler)
+	}
+
+	return mux
 }
 
 func GetAddress() string {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -10,11 +11,7 @@ import (
 )
 
 func TestServerReturnsOkOnRootAndHealthcheck(t *testing.T) {
-	for _, uri := range []string{
-		"/",
-		"/api/health",
-		"/api/public/health",
-	} {
+	for _, uri := range URIS {
 		req, _ := http.NewRequest(http.MethodGet, uri, nil)
 
 		requestRecorder := httptest.NewRecorder()
@@ -33,4 +30,14 @@ func TestGetPortWhenNotSetReturns8080(t *testing.T) {
 func TestGetPortWhen5000SetReturns5000(t *testing.T) {
 	os.Setenv("PORT", "5000")
 	assert.Equal(t, ":5000", GetAddress())
+}
+
+func TestServerEndToEnd(t *testing.T) {
+	router := CreateHandler()
+	server := httptest.NewServer(router)
+
+	for _, uri := range URIS {
+		url := fmt.Sprintf("%s%s", server.URL, uri)
+		assert.HTTPStatusCode(t, HealthcheckHandler, "GET", url, nil, 200)
+	}
 }
