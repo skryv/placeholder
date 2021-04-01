@@ -13,6 +13,7 @@ func TestServerReturnsOkOnRootAndHealthcheck(t *testing.T) {
 	for _, uri := range []string{
 		"/",
 		"/api/health",
+		"/api/public/health",
 	} {
 		req, _ := http.NewRequest(http.MethodGet, uri, nil)
 

@@ -16,8 +16,15 @@ func main() {
 func CreateServer() *http.Server {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", HealthcheckHandler)
-	mux.HandleFunc("/api/health", HealthcheckHandler)
+	paths := []string{
+		"/",
+		"/api/health",
+		"/api/public/health",
+	}
+
+	for _, uri := range paths {
+		mux.HandleFunc(uri, HealthcheckHandler)
+	}
 
 	server := &http.Server{
 		Addr:    GetAddress(),
