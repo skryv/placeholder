@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  pull_request:
+    branches: [ main ]
   push:
     branches: [ main ]
 
@@ -22,5 +24,9 @@ jobs:
     - name: Get dependencies
       run: |
         go get -v -t -d ./...
+
     - name: Test
       run: go test ./... -cover
+
+    - name: Build
+      run: ./build.sh
