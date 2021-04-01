@@ -6,8 +6,6 @@ import (
 	"os"
 )
 
-const PORT_ENV_KEY = "PORT"
-
 func main() {
 	server := CreateServer()
 	server.ListenAndServe()
@@ -37,7 +35,7 @@ func CreateServer() *http.Server {
 func GetAddress() string {
 	var port string
 
-	value, ok := os.LookupEnv(PORT_ENV_KEY)
+	value, ok := os.LookupEnv("PORT")
 
 	if !ok {
 		port = "8080"
