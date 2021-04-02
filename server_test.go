@@ -2,26 +2,12 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
-
-func TestServerReturnsOkOnRootAndHealthcheck(t *testing.T) {
-	for _, uri := range URIS {
-		req, _ := http.NewRequest(http.MethodGet, uri, nil)
-
-		requestRecorder := httptest.NewRecorder()
-		handler := http.HandlerFunc(HealthcheckHandler)
-
-		handler.ServeHTTP(requestRecorder, req)
-
-		assert.Equal(t, http.StatusOK, requestRecorder.Code)
-	}
-}
 
 func TestGetPortWhenNotSetReturns8080(t *testing.T) {
 	assert.Equal(t, ":8080", GetAddress())
