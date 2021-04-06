@@ -5,7 +5,7 @@ A placeholder application used for scaffolding ECS Fargate services that does ju
 ## usage
 
 ```
-FROM public.ecr.aws/g8l2e8j7/hello-world:latest
+FROM public.ecr.aws/skryv/hello-world:latest
 ```
 
 You can set the port that the application runs on by setting the `PORT` environment variable.
