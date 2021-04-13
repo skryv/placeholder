@@ -29,9 +29,6 @@ jobs:
     - name: Test
       run: go test ./... -cover
 
-    - name: Build application
-      run: docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16.2 go build -v
-
     - name: Build docker image
       run: docker build -t ${{ env.DOCKER_TAG }} .
 
