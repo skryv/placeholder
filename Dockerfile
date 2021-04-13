@@ -1,14 +1,20 @@
-FROM golang:1.16.2-alpine
+FROM golang:1.16.2-alpine AS builder
 
-WORKDIR /app
-COPY hello-world hello-world
+ENV CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
 
 EXPOSE 8080
 
-COPY go.mod go.mod
-COPY go.sum go.sum
-COPY server.go server.go
+WORKDIR /dist
 
+COPY . .
+
+RUN go get -v -t -d ./...
 RUN go build .
 
-CMD ["/app/hello-world"]
+FROM scratch
+
+COPY --from=builder /dist/hello-world /
+
+CMD ["/hello-world"]
