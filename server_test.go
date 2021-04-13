@@ -22,6 +22,12 @@ func TestServerEndToEnd(t *testing.T) {
 	router := CreateHandler()
 	server := httptest.NewServer(router)
 
+	URIS := []string{
+		"/",
+		"/api/health",
+		"/api/public/health",
+	}
+
 	for _, uri := range URIS {
 		url := fmt.Sprintf("%s%s", server.URL, uri)
 		assert.HTTPStatusCode(t, HealthcheckHandler, "GET", url, nil, 200)
