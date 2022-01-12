@@ -1,4 +1,4 @@
-module skryv.com/hello-world/v2
+module skryv.com/placeholder/v2
 
 go 1.16
 

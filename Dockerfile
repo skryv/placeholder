@@ -15,6 +15,6 @@ RUN go build .
 
 FROM scratch
 
-COPY --from=builder /dist/hello-world /
+COPY --from=builder /dist/placeholder /
 
-CMD ["/hello-world"]
+CMD ["/placeholder"]
