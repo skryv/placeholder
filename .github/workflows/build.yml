@@ -34,10 +34,12 @@ jobs:
 
     - name: Login to public ECR
       uses: docker/login-action@v1
+      if: github.ref == 'refs/heads/main'
       with:
         registry: public.ecr.aws
         username: ${{ secrets.AWS_ACCESS_KEY_ID }}
         password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Push to public ECR
+      if: github.ref == 'refs/heads/main'
       run: docker push ${{ env.DOCKER_TAG }}
