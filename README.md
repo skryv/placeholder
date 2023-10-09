@@ -7,6 +7,10 @@ A placeholder application used for scaffolding ECS Fargate services that does ju
 ```
 FROM public.ecr.aws/skryv/placeholder:latest
 ```
+or
+```
+FROM dckr.skryv.com/placeholder:latest
+```
 
 You can set the port that the application runs on by setting the `PORT` environment variable.
 
