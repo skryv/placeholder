@@ -26,6 +26,7 @@ func TestServerEndToEnd(t *testing.T) {
 		"/",
 		"/api/health",
 		"/api/public/health",
+		"/api/public/health-container",
 	}
 
 	for _, uri := range URIS {
