@@ -33,7 +33,7 @@ jobs:
       run: docker build -t ${{ env.DOCKER_TAG }} .
 
     - name: Login to public ECR
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       if: github.ref == 'refs/heads/main'
       with:
         registry: public.ecr.aws
