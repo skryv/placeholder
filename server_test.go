@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
@@ -19,9 +19,6 @@ func TestGetPortWhen5000SetReturns5000(t *testing.T) {
 }
 
 func TestServerEndToEnd(t *testing.T) {
-	router := CreateHandler()
-	server := httptest.NewServer(router)
-
 	URIS := []string{
 		"/",
 		"/api/health",
@@ -30,7 +27,17 @@ func TestServerEndToEnd(t *testing.T) {
 	}
 
 	for _, uri := range URIS {
-		url := fmt.Sprintf("%s%s", server.URL, uri)
-		assert.HTTPStatusCode(t, HealthcheckHandler, "GET", url, nil, 200)
+		req, _ := http.NewRequest("GET", uri, nil)
+		response := executeRequest(req)
+		assert.Equal(t, 200, response.Code)
 	}
+}
+
+func executeRequest(req *http.Request) *httptest.ResponseRecorder {
+	rr := httptest.NewRecorder()
+
+	mux := CreateHandler()
+	mux.ServeHTTP(rr, req)
+
+	return rr
 }
