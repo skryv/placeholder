@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -27,9 +28,13 @@ func TestServerEndToEnd(t *testing.T) {
 	}
 
 	for _, uri := range URIS {
-		req, _ := http.NewRequest("GET", uri, nil)
-		response := executeRequest(req)
-		assert.Equal(t, 200, response.Code)
+		uri := uri
+		t.Run(fmt.Sprintf("receives 200 when fetching %s", uri), func(t *testing.T) {
+			t.Parallel()
+			req, _ := http.NewRequest("GET", uri, nil)
+			response := executeRequest(req)
+			assert.Equal(t, 200, response.Code)
+		})
 	}
 }
 
