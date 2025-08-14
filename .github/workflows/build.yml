@@ -2,43 +2,42 @@ name: CI
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
     env:
       DOCKER_TAG: public.ecr.aws/skryv/placeholder
     steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v5
-      with:
-        go-version: ^1.24
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v5
+        with:
+          go-version: ^1.25
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v4
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v4
 
-    - name: Get dependencies
-      run: go mod download
+      - name: Get dependencies
+        run: go mod download
 
-    - name: Test
-      run: go test ./... -cover
+      - name: Test
+        run: go test ./... -cover
 
-    - name: Build docker image
-      run: docker build -t ${{ env.DOCKER_TAG }} .
+      - name: Build docker image
+        run: docker build -t ${{ env.DOCKER_TAG }} .
 
-    - name: Login to public ECR
-      uses: docker/login-action@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        registry: public.ecr.aws
-        username: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Login to public ECR
+        uses: docker/login-action@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Push to public ECR
-      if: github.ref == 'refs/heads/main'
-      run: docker push ${{ env.DOCKER_TAG }}
+      - name: Push to public ECR
+        if: github.ref == 'refs/heads/main'
+        run: docker push ${{ env.DOCKER_TAG }}
